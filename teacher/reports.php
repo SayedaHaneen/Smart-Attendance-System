@@ -249,6 +249,11 @@ if ($session_id > 0) {
                     <h3 class="fw-bold mb-1"><i class="fas fa-chart-line text-success me-2"></i> Attendance Summary Reports</h3>
                     <p class="text-muted small mb-0">Overview of all class sessions created and attendance logs.</p>
                 </div>
+                <div>
+                    <button onclick="window.print()" class="btn btn-outline-secondary rounded-pill px-3">
+                        <i class="fas fa-print me-1"></i> Print Summary
+                    </button>
+                </div>
             </div>
 
             <!-- Date Filter -->
