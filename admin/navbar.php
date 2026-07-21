@@ -68,6 +68,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
                         <i class="fas fa-user-check me-1 text-warning"></i> Approvals
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link px-2.5 py-1 rounded-pill text-nowrap <?php echo $current_page === 'settings.php' ? 'active fw-bold' : ''; ?>" href="settings.php">
+                        <i class="fas fa-cog me-1 text-secondary"></i> Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-2.5 py-1 rounded-pill text-nowrap <?php echo $current_page === 'backup.php' ? 'active fw-bold' : ''; ?>" href="backup.php">
+                        <i class="fas fa-database me-1 text-info"></i> Backup
+                    </a>
+                </li>
             </ul>
 
             <!-- Far-Right Utilities: Theme Toggle to the LEFT of Logout -->
@@ -131,6 +141,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <li class="nav-item">
                 <a class="nav-link px-3 py-2 rounded-3 <?php echo $current_page === 'approve_students.php' ? 'active fw-bold' : ''; ?>" href="approve_students.php">
                     <i class="fas fa-user-check fa-fw me-2 text-warning"></i> Approvals
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link px-3 py-2 rounded-3 <?php echo $current_page === 'settings.php' ? 'active fw-bold' : ''; ?>" href="settings.php">
+                    <i class="fas fa-cog fa-fw me-2 text-secondary"></i> Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link px-3 py-2 rounded-3 <?php echo $current_page === 'backup.php' ? 'active fw-bold' : ''; ?>" href="backup.php">
+                    <i class="fas fa-database fa-fw me-2 text-info"></i> Backup
                 </a>
             </li>
         </ul>

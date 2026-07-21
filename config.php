@@ -9,7 +9,19 @@ define('DB_PASS', '');
 define('DB_NAME', 'attendance_system');
 
 // Application Configuration
-define('APP_NAME', 'Smart Attendance System');
+$db = getDB();
+$db->query("CREATE TABLE IF NOT EXISTS settings (setting_key VARCHAR(100) PRIMARY KEY, setting_value TEXT)");
+$db->query("INSERT IGNORE INTO settings (setting_key, setting_value) VALUES 
+    ('school_name', 'Smart Attendance System'),
+    ('qr_validity', '30'),
+    ('session_limit', '15'),
+    ('attendance_radius', '50')
+");
+
+$app_name_res = $db->query("SELECT setting_value FROM settings WHERE setting_key = 'school_name'");
+$app_name = ($app_name_res && $row = $app_name_res->fetch_assoc()) ? $row['setting_value'] : 'Smart Attendance System';
+define('APP_NAME', $app_name);
+
 $protocol = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') ? 'https://' : 'http://';
 $current_host = $_SERVER['HTTP_HOST'] ?? '192.168.100.39';
 define('APP_URL', $protocol . $current_host . '/attendance_system_mock/');
@@ -64,6 +76,25 @@ function redirect($url) {
 
 function sanitize($input) {
     return htmlspecialchars(strip_tags(trim($input)));
+}
+
+function getSetting($key, $default = '') {
+    $db = getDB();
+    $stmt = $db->prepare("SELECT setting_value FROM settings WHERE setting_key = ?");
+    $stmt->bind_param("s", $key);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if ($row = $res->fetch_assoc()) {
+        return $row['setting_value'];
+    }
+    return $default;
+}
+
+function setSetting($key, $value) {
+    $db = getDB();
+    $stmt = $db->prepare("INSERT INTO settings (setting_key, setting_value) VALUES (?, ?) ON DUPLICATE KEY UPDATE setting_value = ?");
+    $stmt->bind_param("sss", $key, $value, $value);
+    return $stmt->execute();
 }
 
 // QR Code Generation Function - Using QR Server API (Working)

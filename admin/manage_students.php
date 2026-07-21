@@ -10,6 +10,71 @@ $db = getDB();
 $message = '';
 $message_type = '';
 
+if (isset($_GET['msg'])) {
+    $message = urldecode($_GET['msg']);
+    $message_type = sanitize($_GET['type'] ?? 'info');
+}
+
+// Handle CSV Import
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['import_csv'])) {
+    if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] === UPLOAD_ERR_OK) {
+        $file_path = $_FILES['csv_file']['tmp_name'];
+        if (($handle = fopen($file_path, 'r')) !== FALSE) {
+            // Read header row
+            $header = fgetcsv($handle);
+            
+            $imported = 0;
+            $skipped = 0;
+            $errors = 0;
+            
+            $ins = $db->prepare("INSERT INTO students (username, full_name, roll_number, email, password, department_id, batch_id, semester_id, section_id, is_approved) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1)");
+            
+            while (($data = fgetcsv($handle)) !== FALSE) {
+                if (count($data) < 9) {
+                    $errors++;
+                    continue;
+                }
+                $full_name = sanitize($data[0]);
+                $roll_number = sanitize($data[1]);
+                $username = sanitize($data[2]);
+                $email = sanitize($data[3]);
+                $password = $data[4];
+                $department_id = intval($data[5] ?: 1);
+                $batch_id = intval($data[6] ?: 1);
+                $semester_id = intval($data[7] ?: 1);
+                $section_id = intval($data[8] ?: 1);
+                
+                // Check duplicate
+                $chk = $db->prepare("SELECT student_id FROM students WHERE username = ? OR roll_number = ? OR email = ?");
+                $chk->bind_param("sss", $username, $roll_number, $email);
+                $chk->execute();
+                if ($chk->get_result()->num_rows > 0) {
+                    $skipped++;
+                } else {
+                    $ins->bind_param("sssssiiii", $username, $full_name, $roll_number, $email, $password, $department_id, $batch_id, $semester_id, $section_id);
+                    if ($ins->execute()) {
+                        $imported++;
+                    } else {
+                        $errors++;
+                    }
+                }
+            }
+            fclose($handle);
+            $message = "Import results: Successfully imported $imported students. Skipped $skipped duplicates. Errors: $errors.";
+            $message_type = ($imported > 0) ? "success" : "warning";
+            
+            header("Location: manage_students.php?msg=" . urlencode($message) . "&type=" . $message_type);
+            exit;
+        } else {
+            $message = "Failed to open uploaded CSV file.";
+            $message_type = "danger";
+        }
+    } else {
+        $message = "Please choose a valid CSV file to upload.";
+        $message_type = "danger";
+    }
+}
+
 // Handle Delete Student
 if (isset($_GET['delete_id']) && is_numeric($_GET['delete_id'])) {
     $del_id = intval($_GET['delete_id']);
@@ -133,6 +198,31 @@ if (!empty($params)) {
 $stmt->execute();
 $students = $stmt->get_result();
 
+// Handle CSV Export
+if (isset($_GET['export']) && $_GET['export'] === 'csv') {
+    header('Content-Type: text/csv; charset=utf-8');
+    header('Content-Disposition: attachment; filename=students_export_' . date('Y-m-d') . '.csv');
+    $output = fopen('php://output', 'w');
+    fputcsv($output, ['Full Name', 'Roll Number', 'Username', 'Email', 'Department', 'Batch', 'Semester', 'Section', 'Status']);
+    
+    while ($row = $students->fetch_assoc()) {
+        $status = ($row['is_approved'] == 1) ? 'Approved' : 'Pending';
+        fputcsv($output, [
+            $row['full_name'],
+            $row['roll_number'],
+            $row['username'],
+            $row['email'],
+            $row['department_name'],
+            $row['batch_year'],
+            $row['semester_name'],
+            $row['section_name'],
+            $status
+        ]);
+    }
+    fclose($output);
+    exit;
+}
+
 // Fetch dropdown data
 $departments = $db->query("SELECT department_id, department_name FROM departments ORDER BY department_name");
 $batches = $db->query("SELECT batch_id, batch_year FROM batches ORDER BY batch_year DESC");
@@ -255,6 +345,12 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                     <span class="badge badge-custom badge-pending"><?php echo $students ? $students->num_rows : 0; ?> Students Listed</span>
                 </div>
                 <div class="d-flex gap-2">
+                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#importModal">
+                        <i class="fas fa-file-import me-1"></i> Import CSV
+                    </button>
+                    <a href="manage_students.php?export=csv&dept_id=<?php echo $filter_dept; ?>&batch_id=<?php echo $filter_batch; ?>&sem_id=<?php echo $filter_sem; ?>&sec_id=<?php echo $filter_sec; ?>&search=<?php echo urlencode($search); ?>" class="btn btn-outline-success btn-sm rounded-pill px-3">
+                        <i class="fas fa-file-export me-1"></i> Export CSV
+                    </a>
                     <?php if ($filter_dept || $filter_batch || $filter_sem || $filter_sec || $search): ?>
                         <a href="manage_students.php" class="btn btn-outline-secondary btn-sm rounded-pill">
                             <i class="fas fa-times me-1"></i> Clear Filters
@@ -430,6 +526,37 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                         <button type="submit" class="btn btn-primary-custom btn-sm rounded-pill px-4 fw-bold">
                             <i class="fas fa-save me-1"></i> Save Student Record
                         </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Import CSV Modal -->
+    <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="importModalLabel"><i class="fas fa-file-import text-primary me-2"></i> Batch Import Students (CSV)</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="POST" action="manage_students.php" enctype="multipart/form-data">
+                    <input type="hidden" name="import_csv" value="1">
+                    <div class="modal-body">
+                        <div class="alert alert-info small rounded-3">
+                            <strong>CSV Formatting Requirements:</strong><br>
+                            1. The first row must be headers (will be skipped).<br>
+                            2. Columns order: <code>FullName, RollNumber, Username, Email, Password, DepartmentID, BatchID, SemesterID, SectionID</code><br>
+                            3. Columns 6 to 9 represent database IDs. Default is <code>1</code>.
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label font-semibold">Select CSV File</label>
+                            <input type="file" name="csv_file" class="form-control" accept=".csv" required>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm rounded-pill px-4 fw-bold">Upload & Import</button>
                     </div>
                 </form>
             </div>

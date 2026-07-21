@@ -98,6 +98,43 @@ if ($session_id > 0) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/theme.css" rel="stylesheet">
+    <style>
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                font-size: 11pt !important;
+            }
+            .app-navbar, .btn, .btn-theme-toggle, [data-table-search], input, .ms-auto, .d-flex.gap-2 {
+                display: none !important;
+            }
+            .container-fluid {
+                padding: 0 !important;
+                margin: 0 !important;
+                max-width: 100% !important;
+            }
+            .custom-table-container {
+                box-shadow: none !important;
+                border: 1px solid #dee2e6 !important;
+                background: #ffffff !important;
+            }
+            .custom-table th, .custom-table td {
+                border: 1px solid #dee2e6 !important;
+                padding: 8px !important;
+                color: #000000 !important;
+            }
+            .stat-card {
+                border: 1px solid #dee2e6 !important;
+                box-shadow: none !important;
+                background: #f8f9fa !important;
+                color: #000000 !important;
+                margin-bottom: 10px !important;
+            }
+            .stat-icon {
+                display: none !important;
+            }
+        }
+    </style>
 </head>
 <body style="background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.15), transparent 70%), var(--bg-body); min-height: 100vh;">
     <!-- Navbar -->
