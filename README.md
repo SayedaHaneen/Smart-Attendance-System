@@ -28,7 +28,7 @@ The Faculty Portal generates live, refreshing QR codes synced with a 4-digit ses
 ### 📸 Application Previews
 | Student Login Portal | Faculty Live QR Broadcast | Admin Sidebar Manager |
 | :---: | :---: | :---: |
-| ![Student Login](assets/screenshots/student_login.png) | ![Faculty Dashboard](assets/screenshots/faculty_dashboard.png) | ![Admin Dashboard](assets/screenshots/admin_dashboard.png) |
+| ![Student Login](student_login.png) | ![Faculty Dashboard](faculty_dashboard.png) | ![Admin Dashboard](admin_dashboard.png) |
 
 ### 🎓 1. Student Portal
 * **Dashboard Overview**: Displays total present/absent stats, current attendance rate (%), and bound device status.
