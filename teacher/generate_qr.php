@@ -54,6 +54,7 @@ $qr_image_url = generateQRCode($qr_data, 340);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/theme.css" rel="stylesheet">
+    <script src="../assets/js/qrious.min.js"></script>
     <style>
         .qr-display-box {
             background: #ffffff;
@@ -112,8 +113,9 @@ $qr_image_url = generateQRCode($qr_data, 340);
                     <p class="text-muted small mb-3">Instruct students to scan QR or enter 4-digit code below</p>
 
                     <!-- Large QR Code Display -->
-                    <div class="qr-display-box my-3">
-                        <img src="<?php echo $qr_image_url; ?>" alt="Attendance QR Code" class="img-fluid" style="max-width:280px;">
+                    <div class="qr-display-box my-3" style="min-height: 280px; display: flex; align-items: center; justify-content: center;">
+                        <img id="qrImage" src="<?php echo $qr_image_url; ?>" alt="Attendance QR Code" class="img-fluid" style="max-width:280px;" onerror="switchToLocalQR()">
+                        <canvas id="qrCanvas" style="display: none; max-width: 280px;"></canvas>
                     </div>
 
                     <!-- 4-Digit Manual Code Banner -->
@@ -177,6 +179,22 @@ $qr_image_url = generateQRCode($qr_data, 340);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/theme.js"></script>
     <script>
+        function switchToLocalQR() {
+            console.warn("Online QR API failed to load. Switching to local offline QRious generator.");
+            const qrData = "<?php echo $qr_data; ?>";
+            const img = document.getElementById("qrImage");
+            if (img) img.style.display = "none";
+            const canvas = document.getElementById("qrCanvas");
+            if (canvas) {
+                canvas.style.display = "inline-block";
+                new QRious({
+                    element: canvas,
+                    value: qrData,
+                    size: 280
+                });
+            }
+        }
+
         const sessionId = <?php echo $session_id; ?>;
         const sessionCode = '<?php echo $session_code; ?>';
         const durationMinutes = <?php echo $session['duration_minutes']; ?>;
