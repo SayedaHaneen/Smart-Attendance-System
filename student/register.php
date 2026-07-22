@@ -206,7 +206,7 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                             <div class="input-group">
                                 <span class="input-group-text bg-body-tertiary border-end-0 text-muted"><i class="fas fa-lock"></i></span>
                                 <input type="password" class="form-control border-start-0 border-end-0" id="password" name="password" placeholder="Min 6 characters" minlength="6" required>
-                                <button class="btn btn-outline-secondary border-start-0" type="button" class="toggle-pass" data-target="password">
+                                <button class="btn btn-outline-secondary border-start-0 toggle-pass" type="button" data-target="password">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
@@ -218,7 +218,7 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                             <div class="input-group">
                                 <span class="input-group-text bg-body-tertiary border-end-0 text-muted"><i class="fas fa-shield-alt"></i></span>
                                 <input type="password" class="form-control border-start-0 border-end-0" id="confirm_password" name="confirm_password" minlength="6" required>
-                                <button class="btn btn-outline-secondary border-start-0" type="button" class="toggle-pass" data-target="confirm_password">
+                                <button class="btn btn-outline-secondary border-start-0 toggle-pass" type="button" data-target="confirm_password">
                                     <i class="fas fa-eye"></i>
                                 </button>
                             </div>
