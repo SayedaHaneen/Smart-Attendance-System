@@ -572,3 +572,18 @@ html, body {
     max-width: 100%;
     box-sizing: border-box;
 }
+
+/* Fix Input Group & Search Fields in Dark Theme */
+.input-group-text {
+    border-color: var(--border-color) !important;
+    color: var(--text-muted) !important;
+}
+
+.input-group .form-control {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .form-control::placeholder {
+    color: var(--text-muted) !important;
+    opacity: 0.6 !important;
+}
