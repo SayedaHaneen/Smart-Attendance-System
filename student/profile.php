@@ -99,21 +99,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['change_password'])) {
     <link href="../assets/css/theme.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg app-navbar sticky-top">
-        <div class="container-fluid px-4">
-            <a class="navbar-brand" href="dashboard.php">
-                <div class="brand-icon"><i class="fas fa-graduation-cap"></i></div>
-                <span><?php echo APP_NAME; ?></span>
+    <!-- Student Portal Top Navbar -->
+    <nav class="navbar navbar-expand-lg app-navbar sticky-top shadow-sm py-2">
+        <div class="container-fluid px-3 px-md-4" style="max-width: 1400px; margin: 0 auto;">
+            <!-- Brand Logo -->
+            <a class="navbar-brand d-flex align-items-center gap-2 me-3" href="dashboard.php">
+                <div class="brand-icon" style="background: linear-gradient(135deg, #4f46e5, #0ea5e9); color: white; width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; box-shadow: 0 4px 10px rgba(79,70,229,0.35);">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <span class="fw-bold tracking-tight text-main text-nowrap" style="font-size: 0.95rem;"><?php echo APP_NAME; ?> <span class="badge bg-primary-subtle text-primary border border-primary-subtle ms-1 text-uppercase" style="font-size:0.6rem;">Student</span></span>
             </a>
             
-            <div class="ms-auto d-flex align-items-center gap-2">
+            <!-- Mobile Toggle -->
+            <div class="d-flex align-items-center gap-2 d-lg-none ms-auto">
                 <button class="btn-theme-toggle" onclick="toggleAppTheme()" title="Toggle Theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="dashboard.php" class="btn btn-outline-light btn-sm rounded-pill px-3">
-                    <i class="fas fa-arrow-left me-1"></i> Dashboard
-                </a>
+                <button class="navbar-toggler text-main border-0 p-1.5" type="button" data-bs-toggle="collapse" data-bs-target="#studentNavbarNav">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+            </div>
+            
+            <!-- Desktop Navigation -->
+            <div class="collapse navbar-collapse" id="studentNavbarNav">
+                <ul class="navbar-nav me-auto ms-lg-3 gap-1 align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1.5 rounded-pill text-nowrap" href="dashboard.php">
+                            <i class="fas fa-th-large me-1.5 text-primary"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1.5 rounded-pill text-nowrap" href="scan_qr.php">
+                            <i class="fas fa-qrcode me-1.5 text-success"></i> Scan QR
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1.5 rounded-pill text-nowrap" href="manual_entry.php">
+                            <i class="fas fa-keyboard me-1.5 text-info"></i> Enter Code
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1.5 rounded-pill text-nowrap" href="history.php">
+                            <i class="fas fa-history me-1.5 text-warning"></i> History
+                        </a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center gap-2.5 ms-auto mt-2 mt-lg-0">
+                    <div class="user-profile-badge d-none d-xl-flex align-items-center gap-1.5 px-2.5 py-1 rounded-pill" style="background: rgba(79, 70, 229, 0.1); border: 1px solid rgba(79, 70, 229, 0.2); color: var(--text-main);">
+                        <i class="fas fa-user-circle text-primary small"></i>
+                        <span class="small font-semibold text-nowrap" style="font-size:0.75rem;"><?php echo htmlspecialchars($student['full_name']); ?></span>
+                    </div>
+
+                    <button class="btn-theme-toggle d-none d-lg-inline-flex" onclick="toggleAppTheme()" title="Toggle Light/Dark Theme">
+                        <i class="fas fa-moon"></i>
+                    </button>
+
+                    <a href="logout.php" class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1 fw-bold text-nowrap" style="font-size: 0.8rem;">
+                        <i class="fas fa-sign-out-alt me-1"></i> Logout
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
