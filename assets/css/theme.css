@@ -583,6 +583,19 @@ html, body {
     border-color: var(--border-color) !important;
 }
 
+/* Ensure inputs inside cards and tables have contrasting hollow backgrounds */
+.custom-table-container .form-control,
+.glass-card .form-control,
+.cohort-filter-bar .form-control,
+.cohort-filter-bar .form-select {
+    background-color: var(--bg-body) !important;
+}
+
+.custom-table-container .input-group-text,
+.glass-card .input-group-text {
+    background-color: var(--bg-body) !important;
+}
+
 [data-theme="dark"] .form-control::placeholder {
     color: var(--text-muted) !important;
     opacity: 0.6 !important;
