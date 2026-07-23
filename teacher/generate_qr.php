@@ -233,10 +233,17 @@ $qr_image_url = generateQRCode($qr_data, 340);
                     if (data.success) {
                         const count = data.marked || 0;
                         
-                        // Play chime sound on new student scan
+                        // Play chime sound and toast details on new student scan
                         if (lastMarkedCount !== -1 && count > lastMarkedCount) {
                             if (window.playSuccessChime) window.playSuccessChime();
-                            showToast('New student check-in recorded!', 'success');
+                            
+                            // Find the newly checked-in student (first entry since list is ordered DESC)
+                            if (data.attendance && data.attendance.length > 0) {
+                                const newStudent = data.attendance[0];
+                                showToast(`Check-in: ${newStudent.student_name} (${newStudent.roll_number}) at ${newStudent.time}`, 'success');
+                            } else {
+                                showToast('New student check-in recorded!', 'success');
+                            }
                         }
                         lastMarkedCount = count;
 
