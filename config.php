@@ -2,11 +2,20 @@
 // config.php - Main Configuration File with working QR Code
 session_start();
 
-// Database Configuration
-define('DB_HOST', 'localhost');
-define('DB_USER', 'root');
-define('DB_PASS', '');
-define('DB_NAME', 'attendance_system');
+// Database Configuration (Dynamic Local/Online Switch)
+$is_local = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'] ?? '', '192.168.') === 0;
+
+if ($is_local) {
+    define('DB_HOST', 'localhost');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('DB_NAME', 'attendance_system');
+} else {
+    define('DB_HOST', 'sql107.infinityfree.com');
+    define('DB_USER', 'if0_42481861');
+    define('DB_PASS', 'QMScEVUmU49R8');
+    define('DB_NAME', 'if0_42481861_attendance');
+}
 
 // Application Configuration
 $db = getDB();
