@@ -365,11 +365,11 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                         <tr>
                             <th>Roll Number</th>
                             <th>Student Name</th>
-                            <th>Department</th>
-                            <th>Batch & Semester</th>
-                            <th>Section</th>
-                            <th>Bound Single-Device Token</th>
-                            <th>Status</th>
+                            <th class="d-none d-md-table-cell">Department</th>
+                            <th class="d-none d-lg-table-cell">Batch & Sem</th>
+                            <th class="d-none d-md-table-cell">Section</th>
+                            <th class="d-none d-xl-table-cell">Device Token</th>
+                            <th class="d-none d-sm-table-cell">Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -381,14 +381,18 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                                     <td>
                                         <div class="fw-bold text-main"><?php echo htmlspecialchars($s['full_name']); ?></div>
                                         <small class="text-muted">@<?php echo htmlspecialchars($s['username']); ?></small>
+                                        <!-- Mobile-only Department Badge -->
+                                        <div class="d-md-none mt-1">
+                                            <span class="badge bg-secondary-subtle text-secondary rounded-pill" style="font-size: 0.65rem;"><?php echo htmlspecialchars($s['department_name'] ?? 'SE'); ?></span>
+                                        </div>
                                     </td>
-                                    <td><span class="badge badge-custom badge-present"><?php echo htmlspecialchars($s['department_name'] ?? 'SE'); ?></span></td>
-                                    <td>
+                                    <td class="d-none d-md-table-cell"><span class="badge badge-custom badge-present"><?php echo htmlspecialchars($s['department_name'] ?? 'SE'); ?></span></td>
+                                    <td class="d-none d-lg-table-cell">
                                         <span class="badge bg-secondary-subtle text-secondary rounded-pill me-1">Batch <?php echo htmlspecialchars($s['batch_year'] ?? '2024'); ?></span>
                                         <span class="badge bg-info-subtle text-info rounded-pill"><?php echo htmlspecialchars($s['semester_name'] ?? 'Semester 1'); ?></span>
                                     </td>
-                                    <td><span class="fw-bold text-main">Section <?php echo htmlspecialchars($s['section_name'] ?? 'A'); ?></span></td>
-                                    <td>
+                                    <td class="d-none d-md-table-cell"><span class="fw-bold text-main">Section <?php echo htmlspecialchars($s['section_name'] ?? 'A'); ?></span></td>
+                                    <td class="d-none d-xl-table-cell">
                                         <?php if (!empty($s['device_identifier'])): ?>
                                             <span class="font-monospace small text-success" title="<?php echo htmlspecialchars($s['device_identifier']); ?>">
                                                 <i class="fas fa-mobile-alt me-1"></i> <?php echo htmlspecialchars(substr($s['device_identifier'], 0, 14)); ?>...
@@ -397,7 +401,7 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                                             <span class="text-muted small"><i class="fas fa-unlock me-1"></i> No Device Bound</span>
                                         <?php endif; ?>
                                     </td>
-                                    <td>
+                                    <td class="d-none d-sm-table-cell">
                                         <?php if ($s['is_approved'] == 1): ?>
                                             <span class="badge badge-custom badge-present"><i class="fas fa-check-circle me-1"></i> Approved</span>
                                         <?php else: ?>
