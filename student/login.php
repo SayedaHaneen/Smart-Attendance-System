@@ -160,7 +160,10 @@ $success_msg = isset($_GET['registered']) ? 'Registration successful! Please log
                     </div>
 
                     <div class="mb-4">
-                        <label for="password" class="form-label font-semibold text-main small">Password</label>
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <label for="password" class="form-label font-semibold text-main small mb-0">Password</label>
+                            <a href="#" class="small text-primary text-decoration-none" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal" style="font-size: 0.8rem;">Forgot Password?</a>
+                        </div>
                         <div class="input-group custom-input-group">
                             <span class="input-group-text"><i class="fas fa-lock"></i></span>
                             <input type="password" class="form-control form-control-with-btn" id="password" name="password" placeholder="Enter your password" required>
@@ -192,6 +195,40 @@ $success_msg = isset($_GET['registered']) ? 'Registration successful! Please log
             </div>
         </div>
 
+    </div>
+
+    <!-- Forgot Password Modal -->
+    <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0 p-3">
+                <div class="modal-header border-bottom pb-2">
+                    <h5 class="modal-title fw-bold text-main" id="forgotPasswordModalLabel">
+                        <i class="fas fa-key text-primary me-2"></i> Account Recovery Help
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body py-4 text-center">
+                    <div class="brand-icon mx-auto mb-3" style="width: 64px; height: 64px; font-size: 2rem; background: var(--primary-light); color: var(--primary);">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">🔒 Secure Admin-Mediated Reset</h5>
+                    <p class="text-muted small mb-0">
+                        Since this attendance portal operates on a secure local intranet network without outbound internet access, automated email password reset is disabled.
+                    </p>
+                    <div class="bg-body p-3 rounded-4 border text-start mt-3">
+                        <div class="fw-semibold text-main mb-1"><i class="fas fa-info-circle me-1 text-primary"></i> What should you do?</div>
+                        <p class="small text-muted mb-0">
+                            Please contact your <strong>Department Administrator</strong> or <strong>Course Instructor</strong>. They can instantly reset your password in the Admin Control Panel after verifying your Roll Number.
+                        </p>
+                    </div>
+                </div>
+                <div class="modal-footer border-top pt-2">
+                    <button type="button" class="btn btn-primary-custom btn-sm rounded-pill px-4 fw-bold w-100" data-bs-dismiss="modal">
+                        Understood
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="../assets/js/theme.js"></script>
