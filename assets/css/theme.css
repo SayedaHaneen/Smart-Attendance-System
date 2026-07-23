@@ -631,3 +631,37 @@ html, body {
     -webkit-overflow-scrolling: touch !important;
     width: 100% !important;
 }
+
+/* Administrative Operation Cards Custom Hover Styles */
+.btn-outline-primary.interactive-hover-card:hover {
+    background-color: var(--primary-light) !important;
+    color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+.btn-outline-primary.interactive-hover-card:hover .text-muted {
+    color: var(--text-muted) !important;
+}
+
+.btn-outline-success.interactive-hover-card:hover {
+    background-color: var(--success-light) !important;
+    color: var(--success) !important;
+    border-color: var(--success) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+.btn-outline-success.interactive-hover-card:hover .text-muted {
+    color: var(--text-muted) !important;
+}
+
+.btn-outline-danger.interactive-hover-card:hover {
+    background-color: var(--danger-light) !important;
+    color: var(--danger) !important;
+    border-color: var(--danger) !important;
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-sm);
+}
+.btn-outline-danger.interactive-hover-card:hover .text-muted {
+    color: var(--text-muted) !important;
+}
