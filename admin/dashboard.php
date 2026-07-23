@@ -221,6 +221,7 @@ $popular_depts = $db->query("SELECT d.department_id, d.department_name, COUNT(s.
                             </a>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
