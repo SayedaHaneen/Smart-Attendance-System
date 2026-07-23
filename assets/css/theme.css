@@ -600,3 +600,10 @@ html, body {
     color: var(--text-muted) !important;
     opacity: 0.6 !important;
 }
+
+/* Custom Table Responsive Fixes */
+.table-responsive {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    width: 100% !important;
+}

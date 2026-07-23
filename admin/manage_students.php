@@ -344,7 +344,7 @@ $sections = $db->query("SELECT section_id, section_name FROM sections ORDER BY s
                     <span class="fw-bold"><i class="fas fa-user-graduate text-primary me-2"></i> Enrolled Roster</span>
                     <span class="badge badge-custom badge-pending"><?php echo $students ? $students->num_rows : 0; ?> Students Listed</span>
                 </div>
-                <div class="d-flex gap-2">
+                <div class="d-flex gap-2 flex-wrap">
                     <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3" data-bs-toggle="modal" data-bs-target="#importModal">
                         <i class="fas fa-file-import me-1"></i> Import CSV
                     </button>
