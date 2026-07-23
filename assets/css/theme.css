@@ -5,8 +5,8 @@
 :root {
     --font-primary: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     
-    /* Light Theme Palette */
-    --bg-body: #f4f6fa;
+    /* Light Theme Palette - Rich, Luxurious, Sober */
+    --bg-body: #f8fafc;
     --bg-surface: #ffffff;
     --bg-surface-elevated: #ffffff;
     --bg-glass: rgba(255, 255, 255, 0.85);
@@ -18,73 +18,72 @@
     --text-light: #94a3b8;
     
     --primary: #4f46e5;
-    --primary-hover: #4338ca;
-    --primary-light: rgba(79, 70, 229, 0.1);
+    --primary-hover: #3730a3;
+    --primary-light: rgba(79, 70, 229, 0.08);
     
     --secondary: #0ea5e9;
     --secondary-hover: #0284c7;
     
-    --success: #10b981;
-    --success-light: rgba(16, 185, 129, 0.1);
+    --success: #059669; /* Rich Emerald */
+    --success-light: rgba(5, 150, 105, 0.08);
     
-    --warning: #f59e0b;
-    --warning-light: rgba(245, 158, 11, 0.1);
+    --warning: #d97706; /* Rich Amber */
+    --warning-light: rgba(217, 119, 6, 0.08);
     
-    --danger: #ef4444;
-    --danger-light: rgba(239, 68, 68, 0.1);
+    --danger: #e11d48; /* Velvet Rose */
+    --danger-light: rgba(225, 29, 72, 0.08);
     
-    --info: #3b82f6;
-    --info-light: rgba(59, 130, 246, 0.1);
+    --info: #2563eb; /* Sapphire Blue */
+    --info-light: rgba(37, 99, 235, 0.08);
     
-    --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.04);
-    --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
-    --shadow-lg: 0 20px 35px -10px rgba(15, 23, 42, 0.12);
-    --shadow-primary: 0 10px 25px -5px rgba(79, 70, 229, 0.3);
+    --shadow-sm: 0 2px 8px rgba(15, 23, 42, 0.02);
+    --shadow-md: 0 12px 30px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 24px 50px rgba(15, 23, 42, 0.1);
+    --shadow-primary: 0 10px 25px rgba(79, 70, 229, 0.2);
     
-    --navbar-bg: #4f46e5;
+    --navbar-bg: #1e1b4b; /* Deep Indigo Navy */
     --navbar-text: #ffffff;
-
-     --sidebar-width: 260px;
+    --sidebar-width: 260px;
 }
 
 [data-theme="dark"] {
-    /* Dark Theme Palette */
-    --bg-body: #0b0f19;
-    --bg-surface: #151c2c;
-    --bg-surface-elevated: #1e293b;
-    --bg-glass: rgba(21, 28, 44, 0.85);
-    --border-color: #26334d;
-    --border-glass: rgba(38, 51, 77, 0.8);
+    /* Dark Theme Palette - Deep Space, Luxurious Midnight */
+    --bg-body: #080c14; /* Deepest Obsidian */
+    --bg-surface: #0f1422; /* Sleek Dark Slate */
+    --bg-surface-elevated: #161c2e;
+    --bg-glass: rgba(15, 20, 34, 0.85);
+    --border-color: #1a2236; /* Subtle border */
+    --border-glass: rgba(26, 34, 54, 0.8);
     
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
     --text-light: #64748b;
     
-    --primary: #6366f1;
-    --primary-hover: #818cf8;
-    --primary-light: rgba(99, 102, 241, 0.15);
+    --primary: #818cf8; /* Soft Indigo Glow */
+    --primary-hover: #a5b4fc;
+    --primary-light: rgba(129, 140, 248, 0.12);
     
     --secondary: #38bdf8;
     --secondary-hover: #7dd3fc;
     
-    --success: #34d399;
-    --success-light: rgba(52, 211, 153, 0.15);
+    --success: #34d399; /* Mint Emerald */
+    --success-light: rgba(52, 211, 153, 0.12);
     
-    --warning: #fbbf24;
-    --warning-light: rgba(251, 191, 36, 0.15);
+    --warning: #fbbf24; /* Pastel Gold */
+    --warning-light: rgba(251, 191, 36, 0.12);
     
-    --danger: #f87171;
-    --danger-light: rgba(248, 113, 113, 0.15);
+    --danger: #fb7185; /* Soft Coral Rose */
+    --danger-light: rgba(251, 113, 133, 0.12);
     
     --info: #60a5fa;
-    --info-light: rgba(96, 165, 250, 0.15);
+    --info-light: rgba(96, 165, 250, 0.12);
     
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.2);
-    --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
-    --shadow-primary: 0 10px 25px -5px rgba(99, 102, 241, 0.4);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.5);
+    --shadow-lg: 0 24px 50px rgba(0, 0, 0, 0.7);
+    --shadow-primary: 0 10px 25px rgba(129, 140, 248, 0.25);
     
-    --navbar-bg: #111827;
+    --navbar-bg: #07090e;
     --navbar-text: #f8fafc;
 }
 
@@ -94,6 +93,13 @@ body {
     color: var(--text-main);
     transition: background-color 0.3s ease, color 0.3s ease;
     min-height: 100vh;
+    background-image: radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.05), transparent 50%);
+}
+
+[data-theme="dark"] body {
+    background-image: 
+        radial-gradient(circle at 50% 0%, rgba(99, 102, 241, 0.12), transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(52, 211, 153, 0.03), transparent 30%);
 }
 
 /* Glassmorphic Navbar */
@@ -181,54 +187,72 @@ body {
     padding: 1.5rem;
 }
 
-/* Stat Cards */
+/* Stat Cards - Horizontal Luxury Layout */
 .stat-card {
     background: var(--bg-surface);
     border: 1px solid var(--border-color);
-    border-radius: 16px;
+    border-radius: 20px;
     padding: 1.5rem;
     position: relative;
     overflow: hidden;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    display: grid;
+    grid-template-areas: 
+        "label icon"
+        "value icon";
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 0.15rem 1rem;
+    box-shadow: var(--shadow-sm);
 }
 
 .stat-card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-md);
+    box-shadow: var(--shadow-md), var(--shadow-primary);
+    border-color: var(--primary);
 }
 
 .stat-card .stat-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
+    grid-area: icon;
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.35rem;
+    margin-bottom: 0;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.1);
 }
 
-.stat-icon.primary { background: var(--primary-light); color: var(--primary); }
-.stat-icon.success { background: var(--success-light); color: var(--success); }
-.stat-icon.warning { background: var(--warning-light); color: var(--warning); }
-.stat-icon.danger { background: var(--danger-light); color: var(--danger); }
-.stat-icon.info { background: var(--info-light); color: var(--info); }
+.stat-card:hover .stat-icon {
+    transform: scale(1.08);
+}
+
+.stat-icon.primary { background: var(--primary-light); color: var(--primary); border: 1px solid rgba(129, 140, 248, 0.2); }
+.stat-icon.success { background: var(--success-light); color: var(--success); border: 1px solid rgba(52, 211, 153, 0.2); }
+.stat-icon.warning { background: var(--warning-light); color: var(--warning); border: 1px solid rgba(251, 191, 36, 0.2); }
+.stat-icon.danger { background: var(--danger-light); color: var(--danger); border: 1px solid rgba(251, 113, 133, 0.2); }
+.stat-icon.info { background: var(--info-light); color: var(--info); border: 1px solid rgba(96, 165, 250, 0.2); }
 
 .stat-card .stat-value {
-    font-size: 2rem;
+    grid-area: value;
+    font-size: 1.75rem;
     font-weight: 800;
-    line-height: 1.2;
+    line-height: 1.1;
     color: var(--text-main);
     letter-spacing: -0.5px;
 }
 
 .stat-card .stat-label {
-    font-size: 0.875rem;
-    font-weight: 600;
+    grid-area: label;
+    font-size: 0.75rem;
+    font-weight: 700;
     color: var(--text-muted);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin-top: 0.25rem;
+    letter-spacing: 0.75px;
 }
 
 /* Modern Buttons */
