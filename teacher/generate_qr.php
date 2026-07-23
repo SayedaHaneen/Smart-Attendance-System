@@ -90,7 +90,7 @@ $qr_image_url = generateQRCode($qr_data, 340);
                 <button class="btn-theme-toggle" onclick="toggleAppTheme()" title="Toggle Theme">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="dashboard.php" class="btn btn-outline-light btn-sm rounded-pill px-3">
+                <a href="dashboard.php" class="btn btn-outline-success btn-sm rounded-pill px-3">
                     <i class="fas fa-arrow-left me-1"></i> Dashboard
                 </a>
             </div>
