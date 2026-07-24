@@ -121,7 +121,7 @@ require_once 'config.php';
             background: linear-gradient(135deg, rgba(79, 70, 229, 0.06), rgba(239, 68, 68, 0.04)), var(--bg-surface);
             border: 1px solid var(--border-color);
             border-radius: 24px;
-            padding: 2rem;
+            padding: 1.25rem 2rem;
             box-shadow: var(--shadow-md);
             position: relative;
             overflow: hidden;
@@ -337,7 +337,7 @@ require_once 'config.php';
                             <div class="dev-avatar-glowing" style="padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: none; box-shadow: 0 4px 14px rgba(79,70,229,0.25);">
                                 <img src="assets/images/sayeda_haneen.png" alt="Sayeda Haneen" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
                             </div>
-                            <div class="d-flex flex-column justify-content-center">
+                            <div class="d-flex flex-column justify-content-center" style="margin-top: 4px;">
                                 <div class="d-flex align-items-center gap-2 flex-wrap mb-1.5">
                                     <h4 class="fw-extrabold text-main mb-0" style="letter-spacing:-0.5px; line-height: 1.2;">Sayeda Haneen</h4>
                                     <span class="badge bg-primary text-white rounded-pill px-3 py-1" style="font-size:0.7rem; font-weight:700; align-self: center;">Web Developer</span>
