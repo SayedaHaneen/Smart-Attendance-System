@@ -117,6 +117,11 @@ $attendance_rate = round(($stats['present'] / $total_sessions) * 100);
                             <i class="fas fa-history me-1.5 text-warning"></i> History
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1.5 rounded-pill text-nowrap" href="request_leave.php">
+                            <i class="fas fa-file-alt me-1.5 text-danger"></i> Request Leave
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-2.5 ms-auto mt-2 mt-lg-0">

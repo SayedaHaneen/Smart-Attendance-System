@@ -117,6 +117,11 @@ $recent_sessions_result = $recent_stmt->get_result();
                             <i class="fas fa-chart-bar me-1.5 text-warning"></i> Reports
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link px-3 py-1.5 rounded-pill text-nowrap" href="manage_leaves.php">
+                            <i class="fas fa-file-signature me-1.5 text-info"></i> Manage Leaves
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="d-flex align-items-center gap-2.5 ms-auto mt-2 mt-lg-0">
