@@ -328,8 +328,8 @@ require_once 'config.php';
             </div>
 
             <!-- Premium Developer Showcase Banner -->
-            <div class="my-5 pt-3">
-                <div class="developer-showcase-card">
+            <div class="mt-5 pt-5 mb-5">
+                <div class="developer-showcase-card animate-slide-up">
                     <div class="d-flex align-items-center justify-content-between flex-wrap gap-4">
                         
                         <!-- Left: Avatar & Bio -->
@@ -337,12 +337,12 @@ require_once 'config.php';
                             <div class="dev-avatar-glowing" style="padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: none; box-shadow: 0 4px 14px rgba(79,70,229,0.25);">
                                 <img src="assets/images/sayeda_haneen.png" alt="Sayeda Haneen" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
                             </div>
-                            <div>
-                                <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
-                                    <h4 class="fw-extrabold text-main mb-0" style="letter-spacing:-0.5px;">Sayeda Haneen</h4>
-                                    <span class="badge bg-primary text-white rounded-pill px-3 py-1" style="font-size:0.7rem; font-weight:700;">Web Developer</span>
+                            <div class="d-flex flex-column justify-content-center">
+                                <div class="d-flex align-items-center gap-2 flex-wrap mb-1.5">
+                                    <h4 class="fw-extrabold text-main mb-0" style="letter-spacing:-0.5px; line-height: 1.2;">Sayeda Haneen</h4>
+                                    <span class="badge bg-primary text-white rounded-pill px-3 py-1" style="font-size:0.7rem; font-weight:700; align-self: center;">Web Developer</span>
                                 </div>
-                                <div class="text-muted font-semibold small">
+                                <div class="text-muted font-semibold small" style="line-height: 1.2;">
                                     <i class="fas fa-university text-warning me-1.5"></i> Computer Science &bull; <span class="text-main">Sukkur IBA University</span>
                                 </div>
                             </div>
