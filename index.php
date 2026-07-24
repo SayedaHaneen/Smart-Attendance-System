@@ -10,7 +10,7 @@ require_once 'config.php';
     <title><?php echo APP_NAME; ?> - Next-Gen Smart Attendance Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="assets/css/theme.css?v=2" rel="stylesheet">
+    <link href="assets/css/theme.css?v=<?php echo time(); ?>" rel="stylesheet">
     <style>
         .landing-wrapper {
             min-height: 100vh;
@@ -197,6 +197,20 @@ require_once 'config.php';
             color: #ffffff !important;
             transform: translateY(-2px);
             box-shadow: 0 6px 18px rgba(0, 119, 181, 0.4);
+        }
+
+        /* Ensure absolute dark mode visibility for helper descriptions & headings */
+        [data-theme="dark"] .text-muted,
+        [data-theme="dark"] p.text-muted,
+        [data-theme="dark"] .role-portal-card p,
+        [data-theme="dark"] .feature-card p {
+            color: var(--text-muted) !important;
+        }
+        [data-theme="dark"] h4,
+        [data-theme="dark"] h6,
+        [data-theme="dark"] .role-portal-card h4,
+        [data-theme="dark"] .feature-card h6 {
+            color: var(--text-main) !important;
         }
     </style>
 </head>
