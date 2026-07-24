@@ -132,10 +132,35 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'student') {
 
             const deviceId = localStorage.getItem('student_device_id') || localStorage.getItem('system_device_token') || '';
 
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        submitManualAttendance(sessionCode, deviceId, lat, lon);
+                    },
+                    (error) => {
+                        console.warn("GPS Access Denied/Error:", error);
+                        // Submit with blank GPS, backend handles validation policy
+                        submitManualAttendance(sessionCode, deviceId, null, null);
+                    },
+                    { enableHighAccuracy: true, timeout: 6000 }
+                );
+            } else {
+                submitManualAttendance(sessionCode, deviceId, null, null);
+            }
+        });
+
+        function submitManualAttendance(sessionCode, deviceId, lat, lon) {
             fetch('save_attendance.php', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ session_id: sessionCode, device_id: deviceId })
+                body: JSON.stringify({ 
+                    session_id: sessionCode, 
+                    device_id: deviceId,
+                    latitude: lat,
+                    longitude: lon
+                })
             })
             .then(res => res.json())
             .then(data => {
@@ -169,7 +194,7 @@ if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'student') {
                 `);
                 $('button[type="submit"]').prop('disabled', false);
             });
-        });
+        }
     </script>
 </body>
 </html>

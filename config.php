@@ -3,7 +3,7 @@
 session_start();
 
 // Database Configuration (Dynamic Local/Online Switch)
-$is_local = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'] ?? '', '192.168.') === 0;
+$is_local = (php_sapi_name() === 'cli') || in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1']) || strpos($_SERVER['HTTP_HOST'] ?? '', '192.168.') === 0;
 
 if ($is_local) {
     define('DB_HOST', 'localhost');

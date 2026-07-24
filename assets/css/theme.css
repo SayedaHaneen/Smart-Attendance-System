@@ -543,10 +543,10 @@ html, body {
 }
 
 .app-navbar .nav-link.active {
-    background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+    background: var(--primary) !important;
     color: #ffffff !important;
     opacity: 1;
-    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.35);
+    box-shadow: 0 4px 14px var(--primary-light);
 }
 
 .app-navbar .nav-link.active i {

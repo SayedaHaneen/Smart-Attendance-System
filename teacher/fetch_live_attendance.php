@@ -59,10 +59,18 @@ if ($session['semester_id'] && $session['batch_id'] && $session['section_id']) {
     $total = $total_stmt->get_result()->fetch_assoc()['total'] ?? 0;
 }
 
+// Generate dynamic rolling QR code data (valid for 15 seconds)
+$rolling_hash = hash_hmac('sha256', $session_id . '|' . floor(time() / 15), 'SAS_SECRET_SALT');
+$qr_data = $session_id . '|' . $rolling_hash;
+
+// Update qr_code in DB to keep active state synced
+$db->query("UPDATE attendance_sessions SET qr_code = '" . $db->real_escape_string($qr_data) . "' WHERE session_id = " . intval($session_id));
+
 echo json_encode([
     'success' => true,
     'attendance' => $attendance,
     'marked' => count($attendance),
-    'total' => $total
+    'total' => $total,
+    'qr_data' => $qr_data
 ]);
 ?>

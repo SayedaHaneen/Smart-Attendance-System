@@ -77,7 +77,7 @@ $qr_image_url = generateQRCode($qr_data, 340);
         }
     </style>
 </head>
-<body>
+<body style="--primary: var(--success); --primary-hover: #059669; --primary-light: var(--success-light);">
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg app-navbar sticky-top">
         <div class="container-fluid px-4">
@@ -179,9 +179,12 @@ $qr_image_url = generateQRCode($qr_data, 340);
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/theme.js"></script>
     <script>
-        function switchToLocalQR() {
-            console.warn("Online QR API failed to load. Switching to local offline QRious generator.");
-            const qrData = "<?php echo $qr_data; ?>";
+        let currentQrData = '';
+
+        function updateQRCode(qrData) {
+            if (qrData === currentQrData) return;
+            currentQrData = qrData;
+            
             const img = document.getElementById("qrImage");
             if (img) img.style.display = "none";
             const canvas = document.getElementById("qrCanvas");
@@ -193,6 +196,12 @@ $qr_image_url = generateQRCode($qr_data, 340);
                     size: 280
                 });
             }
+        }
+
+        function switchToLocalQR() {
+            console.warn("Online QR API failed to load. Switching to local offline QRious generator.");
+            const qrData = "<?php echo $qr_data; ?>";
+            updateQRCode(qrData);
         }
 
         const sessionId = <?php echo $session_id; ?>;
@@ -231,6 +240,11 @@ $qr_image_url = generateQRCode($qr_data, 340);
                 dataType: 'json',
                 success: function(data) {
                     if (data.success) {
+                        // Refresh rolling QR code dynamically
+                        if (data.qr_data) {
+                            updateQRCode(data.qr_data);
+                        }
+                        
                         const count = data.marked || 0;
                         
                         // Play chime sound and toast details on new student scan

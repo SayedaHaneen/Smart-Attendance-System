@@ -1,6 +1,7 @@
 <?php
 // student/dashboard.php - Student Portal Dashboard
 require_once '../config.php';
+require_once '../includes/ai_analytics.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'student') {
     redirect('../index.php');
@@ -271,9 +272,90 @@ $attendance_rate = round(($stats['present'] / $total_sessions) * 100);
                 </div>
             </div>
         </div>
+
+        <?php 
+        $dropout_analysis = predictDropoutRisk($student_id); 
+        ?>
+        <!-- AI Forecasting and Risk Panel -->
+        <div class="row g-4 mt-2 mb-4 animate-slide-up">
+            <div class="col-12">
+                <div class="glass-card">
+                    <div class="glass-card-header d-flex justify-content-between align-items-center">
+                        <span><i class="fas fa-brain text-primary me-2"></i> AI Attendance Shortage & Risk Assessment</span>
+                        <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1">Predictive Analytics</span>
+                    </div>
+                    <div class="glass-card-body">
+                        <div class="row align-items-center g-4">
+                            <!-- Left: Overall Dropout Risk Gauge -->
+                            <div class="col-md-4 text-center border-end">
+                                <div class="p-3">
+                                    <div class="text-muted small fw-bold uppercase mb-1">Overall Dropout Risk Score</div>
+                                    <div class="display-4 fw-extrabold text-main mb-2"><?php echo $dropout_analysis['dropout_risk']; ?>%</div>
+                                    <?php 
+                                    $badge_class = 'bg-success-subtle text-success border border-success-subtle';
+                                    if ($dropout_analysis['dropout_risk'] >= 70) $badge_class = 'bg-danger-subtle text-danger border border-danger-subtle';
+                                    elseif ($dropout_analysis['dropout_risk'] >= 40) $badge_class = 'bg-warning-subtle text-warning border border-warning-subtle';
+                                    ?>
+                                    <span class="badge rounded-pill <?php echo $badge_class; ?> px-3 py-1.5 fw-bold" style="font-size:0.8rem;">
+                                        <?php echo $dropout_analysis['status']; ?>
+                                    </span>
+                                    <p class="text-muted small mt-3 mb-0"><?php echo $dropout_analysis['message']; ?></p>
+                                </div>
+                            </div>
+                            
+                            <!-- Right: Course-wise Predictions -->
+                            <div class="col-md-8">
+                                <div class="table-responsive">
+                                    <table class="table custom-table mb-0">
+                                        <thead>
+                                            <tr>
+                                                <th>Course</th>
+                                                <th>Risk Score</th>
+                                                <th>Factors</th>
+                                                <th>Actionable Advice</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            // Get student's subjects
+                                            $sub_query = "SELECT * FROM subjects WHERE department_id = ? AND semester_id = ?";
+                                            $sub_stmt = $db->prepare($sub_query);
+                                            $sub_stmt->bind_param("ii", $student['department_id'], $student['semester_id']);
+                                            $sub_stmt->execute();
+                                            $subjects = $sub_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                                            
+                                            if (count($subjects) > 0) {
+                                                foreach ($subjects as $sub) {
+                                                    $pred = predictStudentAttendance($student_id, $sub['subject_id']);
+                                                    $risk = $pred['risk_score'];
+                                                    $risk_color = 'text-success';
+                                                    if ($risk >= 70) $risk_color = 'text-danger';
+                                                    elseif ($risk >= 40) $risk_color = 'text-warning';
+                                                    
+                                                    echo "<tr>";
+                                                    echo "<td class='fw-bold text-main'>" . htmlspecialchars($sub['subject_name']) . " <small class='text-muted'>(" . htmlspecialchars($sub['subject_code']) . ")</small></td>";
+                                                    echo "<td class='fw-extrabold {$risk_color}'>" . $risk . "%</td>";
+                                                    echo "<td class='small text-muted'>" . htmlspecialchars($pred['reason']) . "</td>";
+                                                    echo "<td class='small text-main font-medium'><i class='fas fa-lightbulb text-warning me-1'></i> " . htmlspecialchars($pred['recommendation']) . "</td>";
+                                                    echo "</tr>";
+                                                }
+                                            } else {
+                                                echo "<tr><td colspan='4' class='text-center py-3 text-muted'>No enrolled courses found for this semester.</td></tr>";
+                                            }
+                                            ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/theme.js"></script>
+    <?php include '../includes/ai_chatbot.php'; ?>
 </body>
 </html>

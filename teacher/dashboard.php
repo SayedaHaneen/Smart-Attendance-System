@@ -1,6 +1,7 @@
 <?php
 // teacher/dashboard.php - Teacher Portal Dashboard
 require_once '../config.php';
+require_once '../includes/ai_analytics.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'teacher') {
     redirect('../index.php');
@@ -76,7 +77,7 @@ $recent_sessions_result = $recent_stmt->get_result();
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="../assets/css/theme.css" rel="stylesheet">
 </head>
-<body style="background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.15), transparent 70%), var(--bg-body); min-height: 100vh;">
+<body style="--primary: var(--success); --primary-hover: #059669; --primary-light: var(--success-light); background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.15), transparent 70%), var(--bg-body); min-height: 100vh;">
     <!-- Faculty Portal Top Navbar -->
     <nav class="navbar navbar-expand-lg app-navbar sticky-top shadow-sm py-2">
         <div class="container-fluid px-3 px-md-4" style="max-width: 1400px; margin: 0 auto;">
@@ -295,10 +296,68 @@ $recent_sessions_result = $recent_stmt->get_result();
                     </tbody>
                 </table>
             </div>
+        <!-- AI Classroom Defaulter Risk Watchlist -->
+        <div class="custom-table-container mt-4 mb-4">
+            <div class="p-3 border-bottom d-flex justify-content-between align-items-center">
+                <span class="fw-bold text-main"><i class="fas fa-brain text-success me-2"></i> AI Classroom Defaulter Watchlist (Risk Forecast)</span>
+                <span class="badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-1 font-semibold">Defaulters Risk > 40%</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table custom-table">
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Roll Number</th>
+                            <th>Subject Enrolled</th>
+                            <th>Risk Score</th>
+                            <th>System Flags</th>
+                            <th>Intervention Recommendation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        // Fetch students in this teacher's department or courses
+                        $watch_query = "SELECT s.student_id, s.full_name, s.roll_number, sub.subject_name, sub.subject_id 
+                                        FROM students s
+                                        JOIN subjects sub ON s.department_id = sub.department_id AND s.semester_id = sub.semester_id
+                                        WHERE s.department_id = ? AND s.is_approved = 1
+                                        ORDER BY s.full_name ASC";
+                        $watch_stmt = $db->prepare($watch_query);
+                        $watch_stmt->bind_param("i", $teacher['department_id']);
+                        $watch_stmt->execute();
+                        $watchlist = $watch_stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                        
+                        $defaulters_found = 0;
+                        foreach ($watchlist as $w) {
+                            $pred = predictStudentAttendance($w['student_id'], $w['subject_id']);
+                            if ($pred['risk_score'] >= 40) {
+                                $defaulters_found++;
+                                $risk_color = 'text-warning';
+                                if ($pred['risk_score'] >= 70) $risk_color = 'text-danger';
+                                
+                                echo "<tr>";
+                                echo "<td class='fw-bold text-main'>" . htmlspecialchars($w['full_name']) . "</td>";
+                                echo "<td class='font-monospace'>" . htmlspecialchars($w['roll_number']) . "</td>";
+                                echo "<td>" . htmlspecialchars($w['subject_name']) . "</td>";
+                                echo "<td class='fw-extrabold {$risk_color}'>" . $pred['risk_score'] . "%</td>";
+                                echo "<td class='small text-muted'>" . htmlspecialchars($pred['reason']) . "</td>";
+                                echo "<td class='small text-main font-medium'><i class='fas fa-exclamation-circle text-danger me-1'></i> " . htmlspecialchars($pred['recommendation']) . "</td>";
+                                echo "</tr>";
+                            }
+                        }
+                        
+                        if ($defaulters_found === 0) {
+                            echo "<tr><td colspan='6' class='text-center py-4 text-muted'><i class='fas fa-check-double text-success me-1'></i> Excellent! All classroom student attendance metrics are healthy.</td></tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../assets/js/theme.js"></script>
+    <?php include '../includes/ai_chatbot.php'; ?>
 </body>
 </html>

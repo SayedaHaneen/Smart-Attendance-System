@@ -1,6 +1,7 @@
 <?php
 // student/save_attendance.php - Anti-Proxy Device-Locked Attendance Processor
 require_once '../config.php';
+require_once '../includes/ai_fraud_detector.php';
 
 header('Content-Type: application/json');
 
@@ -125,7 +126,21 @@ if ($device_record->num_rows > 0) {
     }
 }
 
-// 5. Record Student Attendance with Device Lock Identification
+// 5. AI Geolocation & Fraud Detection Validation
+$latitude = isset($data['latitude']) ? floatval($data['latitude']) : null;
+$longitude = isset($data['longitude']) ? floatval($data['longitude']) : null;
+
+$fraud_check = detectAttendanceFraud($student_id, $actual_session_id, $effective_device_id, $latitude, $longitude);
+
+if (!$fraud_check['is_approved']) {
+    echo json_encode([
+        'success' => false,
+        'message' => '⛔ AI Security Guard: Proxy or impossible location detected. ' . $fraud_check['reason']
+    ]);
+    exit;
+}
+
+// 6. Record Student Attendance with Device Lock Identification
 $insert_query = "INSERT INTO attendance (student_id, session_id, teacher_id, attendance_date, attendance_time, status, device_identifier) 
                 VALUES (?, ?, ?, CURDATE(), CURTIME(), 'Present', ?)";
 $insert_stmt = $db->prepare($insert_query);
