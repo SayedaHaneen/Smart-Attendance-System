@@ -10,6 +10,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($username && $password) {
         $db = getDB();
+        
+        // Auto-Generate Parent Profile Dynamically on Request
+        if (strpos($username, 'parent_') === 0) {
+            $student_uname = substr($username, 7); // extract student username after 'parent_'
+            $st_stmt = $db->prepare("SELECT student_id FROM students WHERE username = ?");
+            $st_stmt->bind_param("s", $student_uname);
+            $st_stmt->execute();
+            $st = $st_stmt->get_result()->fetch_assoc();
+            
+            if ($st) {
+                $student_id = $st['student_id'];
+                
+                // Verify if a parent profile already exists for this student
+                $p_check = $db->prepare("SELECT parent_id FROM parent_profiles WHERE student_id = ?");
+                $p_check->bind_param("i", $student_id);
+                $p_check->execute();
+                if ($p_check->get_result()->num_rows === 0) {
+                    $default_pass = '123456'; // Default password for parent portal accounts
+                    $ins = $db->prepare("INSERT INTO parent_profiles (student_id, username, password) VALUES (?, ?, ?)");
+                    $ins->bind_param("iss", $student_id, $username, $default_pass);
+                    $ins->execute();
+                }
+            }
+        }
+        
         $stmt = $db->prepare("SELECT * FROM parent_profiles WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
