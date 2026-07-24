@@ -334,8 +334,8 @@ require_once 'config.php';
                         
                         <!-- Left: Avatar & Bio -->
                         <div class="d-flex align-items-center gap-3">
-                            <div class="dev-avatar-glowing">
-                                SH
+                            <div class="dev-avatar-glowing" style="padding: 0; overflow: hidden; display: flex; align-items: center; justify-content: center; background: none; box-shadow: 0 4px 14px rgba(79,70,229,0.25);">
+                                <img src="assets/images/sayeda_haneen.png" alt="Sayeda Haneen" style="width: 100%; height: 100%; object-fit: cover; border-radius: 16px;">
                             </div>
                             <div>
                                 <div class="d-flex align-items-center gap-2 flex-wrap mb-1">
